@@ -1,6 +1,10 @@
 package db;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -32,12 +36,22 @@ public class DB {
         return result;
     }
 
+    private static Document findNews(String title) {
+        MongoDatabase database = client.getDatabase("news");// 打开一个数据库（如果不存在就新建一个)
+        MongoCollection<Document> collection = database.getCollection("articles");// 打开一个数据库表（如果不存在就打开一个）
+        BasicDBObject queryObject = new BasicDBObject("title",title);
+        FindIterable<Document> it = collection.find(queryObject);
+        return it.first();
+    }
+
     public static void persistent(String title, String article, long timeStamp) {
         MongoDatabase database = client.getDatabase("news");// 打开一个数据库（如果不存在就新建一个)
         MongoCollection<Document> collection = database.getCollection("articles");// 打开一个数据库表（如果不存在就打开一个）
         List<String> result = clean(article);
-        Document doc = new Document("title", title).append("article", result).append("timestamp", timeStamp);
-        collection.insertOne(doc);
+        // 查询这个新闻是否已经爬取过
+        if(DB.findNews(title) == null) {
+            Document doc = new Document("title", title).append("article", result).append("timestamp", timeStamp);
+            collection.insertOne(doc);
+        }
     }
-
 }
