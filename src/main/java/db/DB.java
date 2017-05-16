@@ -49,9 +49,11 @@ public class DB {
         MongoCollection<Document> collection = database.getCollection("articles");// 打开一个数据库表（如果不存在就打开一个）
         List<String> result = clean(article);
         // 查询这个新闻是否已经爬取过
-        if(DB.findNews(title) == null) {
+        if(DB.findNews(title) == null && result.size() > 100) {// 简单判断是否是有效的文章
             Document doc = new Document("title", title).append("article", result).append("timestamp", timeStamp);
             collection.insertOne(doc);
+        } else {
+            System.out.println("duplicate error");
         }
     }
 }

@@ -36,8 +36,8 @@ public class Spider {
                     ContentParserInterface contentParser = contentParsers.get(contentParserName);
                     List<String> title_content = contentParser.getContent(doc);
                     long timeStamp = System.currentTimeMillis() / (1000 * 3600);
-                    System.out.println(url);
-                    System.out.println(title_content.get(0));
+//                    System.out.println(url);
+//                    System.out.println(title_content.get(0));
                     DB.persistent(title_content.get(0), title_content.get(1), timeStamp);
                 }
                 if (!linkListParserName.equals("")) {// 需要解析链接

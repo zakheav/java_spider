@@ -22,6 +22,10 @@ public class ChildSpider implements Runnable {
 
     @Override
     public void run() {
-        spider.getData(url, contentParserName, linkListParserName, multiThread);
+        try {
+            spider.getData(url, contentParserName, linkListParserName, multiThread);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
