@@ -52,8 +52,6 @@ public class DB {
         if(DB.findNews(title) == null && result.size() > 100) {// 简单判断是否是有效的文章
             Document doc = new Document("title", title).append("article", result).append("timestamp", timeStamp);
             collection.insertOne(doc);
-        } else {
-            System.out.println("duplicate error");
         }
     }
 }
