@@ -17,16 +17,17 @@ import java.util.List;
  */
 public class DB {
     private static MongoClient client = new MongoClient();
+    private static MongoDatabase database = client.getDatabase("news");// 打开一个数据库（如果不存在就新建一个)
 
     private static List<String> clean(String article) {
         article = article.toLowerCase();
         List<String> result = new ArrayList<>();
         int ptr1 = 0, ptr2 = 0;
         while (ptr1 < article.length()) {
-            while (ptr1 < article.length() && !(article.charAt(ptr1) >= 'a' && article.charAt(ptr1) <= 'z' || article.charAt(ptr1) == '`')) {
+            while (ptr1 < article.length() && !(article.charAt(ptr1) >= 'a' && article.charAt(ptr1) <= 'z' || article.charAt(ptr1) == '\'')) {
                 ++ptr1;
             }
-            for (ptr2 = ptr1; ptr2 < article.length() && (article.charAt(ptr2) >= 'a' && article.charAt(ptr2) <= 'z' || article.charAt(ptr2) == '`'); ++ptr2)
+            for (ptr2 = ptr1; ptr2 < article.length() && (article.charAt(ptr2) >= 'a' && article.charAt(ptr2) <= 'z' || article.charAt(ptr2) == '\''); ++ptr2)
                 ;
             if (ptr1 < article.length()) {
                 result.add(article.substring(ptr1, ptr2));
@@ -37,19 +38,17 @@ public class DB {
     }
 
     private static Document findNews(String title) {
-        MongoDatabase database = client.getDatabase("news");// 打开一个数据库（如果不存在就新建一个)
         MongoCollection<Document> collection = database.getCollection("articles");// 打开一个数据库表（如果不存在就打开一个）
-        BasicDBObject queryObject = new BasicDBObject("title",title);
+        BasicDBObject queryObject = new BasicDBObject("title", title);
         FindIterable<Document> it = collection.find(queryObject);
         return it.first();
     }
 
     public static void persistent(String title, String article, long timeStamp) {
-        MongoDatabase database = client.getDatabase("news");// 打开一个数据库（如果不存在就新建一个)
         MongoCollection<Document> collection = database.getCollection("articles");// 打开一个数据库表（如果不存在就打开一个）
         List<String> result = clean(article);
         // 查询这个新闻是否已经爬取过
-        if(DB.findNews(title) == null && result.size() > 100) {// 简单判断是否是有效的文章
+        if (DB.findNews(title) == null && result.size() > 100) {// 简单判断是否是有效的文章
             Document doc = new Document("title", title).append("article", result).append("timestamp", timeStamp);
             collection.insertOne(doc);
         }
