@@ -38,7 +38,11 @@ public class ThreadPool {
                     }
                     task = tasks.poll();
                 }
-                task.run();
+                try {
+                    task.run();
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

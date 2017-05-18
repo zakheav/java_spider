@@ -7,6 +7,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -24,10 +25,10 @@ public class DB {
         List<String> result = new ArrayList<>();
         int ptr1 = 0, ptr2 = 0;
         while (ptr1 < article.length()) {
-            while (ptr1 < article.length() && !(article.charAt(ptr1) >= 'a' && article.charAt(ptr1) <= 'z' || article.charAt(ptr1) == '\'')) {
+            while (ptr1 < article.length() && !(article.charAt(ptr1) >= 'a' && article.charAt(ptr1) <= 'z')) {
                 ++ptr1;
             }
-            for (ptr2 = ptr1; ptr2 < article.length() && (article.charAt(ptr2) >= 'a' && article.charAt(ptr2) <= 'z' || article.charAt(ptr2) == '\''); ++ptr2)
+            for (ptr2 = ptr1; ptr2 < article.length() && (article.charAt(ptr2) >= 'a' && article.charAt(ptr2) <= 'z'); ++ptr2)
                 ;
             if (ptr1 < article.length()) {
                 result.add(article.substring(ptr1, ptr2));
@@ -52,5 +53,11 @@ public class DB {
             Document doc = new Document("title", title).append("article", result).append("timestamp", timeStamp);
             collection.insertOne(doc);
         }
+    }
+
+    public static void deleteOldNews() {
+        int timeStamp = (int) (System.currentTimeMillis() / (1000 * 3600)) - 24 * 7;// 用来过滤掉一周前的新闻
+        MongoCollection<Document> collection = database.getCollection("articles");
+        collection.deleteMany(Filters.lt("timestamp", timeStamp));
     }
 }

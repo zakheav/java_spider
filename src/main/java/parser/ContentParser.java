@@ -18,7 +18,6 @@ public class ContentParser implements ContentParserInterface {
         List<String> title_content = new ArrayList<>();
         String title = doc.select("title").first().text();
 
-        StringBuilder content = new StringBuilder();
         Elements elements = doc.select("p");
         Map<String, StringBuilder> parent_children = new HashMap<>();
         for (Element e : elements) {
