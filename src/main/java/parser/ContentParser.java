@@ -14,7 +14,8 @@ import java.util.Map;
  */
 public class ContentParser implements ContentParserInterface {
     @Override
-    public List<String> getContent(Document doc) {// 获取文章的题目与主要内容
+    // get the title and main body of the news
+    public List<String> getContent(Document doc) {
         List<String> title_content = new ArrayList<>();
         String title = doc.select("title").first().text();
 
@@ -31,7 +32,7 @@ public class ContentParser implements ContentParserInterface {
 
         String mainDataParent = "";
         int max = 0;
-        for (String parent : parent_children.keySet()) {// 找到文章正文的父节点
+        for (String parent : parent_children.keySet()) {
             if (parent_children.get(parent).length() > max) {
                 max = parent_children.get(parent).length();
                 mainDataParent = parent;
@@ -39,7 +40,7 @@ public class ContentParser implements ContentParserInterface {
         }
 
         title_content.add(title);
-        title_content.add(parent_children.get(mainDataParent).toString());// 提取文章正文
+        title_content.add(parent_children.get(mainDataParent).toString());// get the main body of the news
         return title_content;
     }
 }

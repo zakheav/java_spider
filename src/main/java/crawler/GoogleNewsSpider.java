@@ -28,18 +28,20 @@ class ClearOldNews implements Runnable {
 public class GoogleNewsSpider extends Spider {
 
     public GoogleNewsSpider() {
-        // 构建爬虫所用到的解析器
+        // add parser into the spider
+        // add the content parser
         contentParsers.put("ContentParser", new ContentParser());
+        // add the links parser
         linkListParsers.put("BoardLinkListParser", new BoardLinkListParser());
         linkListParsers.put("ArticleLinkListParser", new ArticleLinkListParser());
-        // 添加有反爬虫机制的网站
+        // add the filter to reject the site with anti spider
         antiSpiderSite.add("www.nytimes.com");
     }
 
     public static void main(String[] args) {
         new Thread(new ClearOldNews()).start();
         while(true) {
-            new GoogleNewsSpider().getData("https://news.google.com/", "", "BoardLinkListParser", "false");
+            new GoogleNewsSpider().getData("https://news.google.com/", "", "BoardLinkListParser", "false", 0);
             try {
                 Thread.sleep(1000 * 200);
             } catch (InterruptedException e) {
