@@ -30,7 +30,7 @@ public class HolidaySubLinkListParser implements LinkListParserInterface {
                 // System.out.println(item.get(0));
                 item.add("ContentParser");
                 item.add("HolidaySubLinkListParser");
-                item.add("false");
+                item.add("true");
                 resultList.add(item);
             }
         }
@@ -44,7 +44,7 @@ public class HolidaySubLinkListParser implements LinkListParserInterface {
                 // System.out.println(item.get(0));
                 item.add("ContentParser");
                 item.add("HolidaySubLinkListParser");
-                item.add("false");
+                item.add("true");
                 resultList.add(item);
             }
         }

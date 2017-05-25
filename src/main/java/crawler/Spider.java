@@ -15,7 +15,7 @@ import java.util.*;
  * Created by yuan.wei on 5/16/17.
  */
 public class Spider {
-    protected int deepLimit = 2;
+    protected int deepLimit = 3;
     protected Set<String> antiSpiderSite = new HashSet<>();
     protected Map<String, ContentParserInterface> contentParsers = new HashMap<>();// 存放内容抽取的解析器
     protected Map<String, LinkListParserInterface> linkListParsers = new HashMap<>();// 存放链接发现的解析器

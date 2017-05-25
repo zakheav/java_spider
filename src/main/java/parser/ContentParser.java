@@ -28,6 +28,10 @@ public class ContentParser implements ContentParserInterface {
             }
             StringBuilder sb = parent_children.get(parent);
             sb.append(e.text());
+            Elements elist = e.children();
+            for (Element ee : elist) {
+                sb.append(" " + ee.text() + " ");
+            }
         }
 
         String mainDataParent = "";
