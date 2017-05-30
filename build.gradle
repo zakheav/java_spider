@@ -1,9 +1,7 @@
-group 'java_spider'
+group 'java_spider_framework'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-
-sourceCompatibility = 1.8
 
 repositories {
     jcenter()

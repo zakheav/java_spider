@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java_spider.iml" filepath="$PROJECT_DIR$/.idea/modules/java_spider.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java_spider_main.iml" filepath="$PROJECT_DIR$/.idea/modules/java_spider_main.iml" group="java_spider" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/java_spider_test.iml" filepath="$PROJECT_DIR$/.idea/modules/java_spider_test.iml" group="java_spider" />
+      <module fileurl="file://$PROJECT_DIR$/java_spider.iml" filepath="$PROJECT_DIR$/java_spider.iml" />
     </modules>
   </component>
 </project>
